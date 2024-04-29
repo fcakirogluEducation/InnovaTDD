@@ -7,13 +7,13 @@ namespace InnovaApp.API.Services
     {
         public async Task CreateOrder(Order order)
         {
+            var result = order.CheckOrderItemCount();
 
-           var result= order.CheckOrderItemCount();
-
-           if (!result)
-           {
+            if (!result)
+            {
                 throw new Exception("Order item count is invalid");
-           }
+            }
+
             orderRepository.CreateOrder(order);
 
             await unitOfWork.SaveChanges();
