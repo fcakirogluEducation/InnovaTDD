@@ -1,0 +1,6 @@
+@InnovaApp.API_HostAddress = http://localhost:5116
+
+GET {{InnovaApp.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
