@@ -12,6 +12,20 @@ namespace InnovaApp.API.Repositories
         [Column(TypeName = "decimal(18,2)")] public decimal TotalPrice { get; set; }
 
         public List<OrderItem>? OrderItems { get; set; }
+
+
+        public bool CheckOrderItemCount()
+        {
+            var totalItemCount = OrderItems!.Sum(x => x.Count);
+
+            if (totalItemCount > 10)
+            {
+                return false;
+                //throw new Exception("Sipariş adet sayısı 10'dan büyük olamaz");
+            }
+
+            return true;
+        }
     }
 
 
