@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InnovaApp.API.Services;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InnovaApp.API.Repositories
@@ -13,18 +14,49 @@ namespace InnovaApp.API.Repositories
 
         public List<OrderItem>? OrderItems { get; set; }
 
+        public Order()
+        {
+        }
 
-        public bool CheckOrderItemCount()
+        public Order(OrderCreateRequestDto request)
+        {
+            OrderItems = request.OrderItems?.Select(x => new OrderItem
+            {
+                ProductId = x.ProductId,
+                Price = x.Price,
+                Count = x.Count
+            }).ToList();
+
+            CheckSameProductItemLessThan2();
+
+            CheckOrderItemCount();
+
+
+            TotalPrice = OrderItems.Sum(x => x.Price * x.Count);
+
+            OrderCode = Guid.NewGuid().ToString();
+        }
+
+
+        private void CheckOrderItemCount()
         {
             var totalItemCount = OrderItems!.Sum(x => x.Count);
 
             if (totalItemCount > 10)
             {
-                return false;
-                //throw new Exception("Sipariş adet sayısı 10'dan büyük olamaz");
+                throw new Exception("Sipariş adet sayısı 10'dan büyük olamaz");
             }
+        }
 
-            return true;
+        private void CheckSameProductItemLessThan2()
+        {
+            OrderItems?.ForEach(x =>
+            {
+                if (x.Count > 2)
+                {
+                    throw new Exception("Aynı üründen 2 taneden fazla olamaz");
+                }
+            });
         }
     }
 

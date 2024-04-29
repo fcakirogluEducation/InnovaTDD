@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssert;
+﻿using FluentAssertions;
 using InnovaApp.API.Services;
 
 namespace InnovaApp.API.Test
@@ -25,7 +20,7 @@ namespace InnovaApp.API.Test
 
             // Assert
             Assert.Equal(15, result);
-            result.ShouldBeEqualTo(15);
+            result.Should().Be(15);
         }
 
 
@@ -43,7 +38,24 @@ namespace InnovaApp.API.Test
 
             // Assert
             Assert.Equal(expected, actual);
-            actual.ShouldBeEqualTo(expected);
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(2, -3)]
+        [InlineData(-2, -3)]
+        [InlineData(-2, 3)]
+        public void Add_NegativeNumber_ReturnException(int a, int b)
+        {
+            var sut = new Calculator(); // System Under Test
+
+            Action result = () => sut.Add(a, b);
+
+            //var exception = Assert.Throws<Exception>(result);
+
+            //Assert.Equal("Invalid input", exception.Message);
+
+            result.Should().Throw<Exception>().WithMessage("Invalid input");
         }
     }
 }

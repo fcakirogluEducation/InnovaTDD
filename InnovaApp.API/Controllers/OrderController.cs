@@ -12,9 +12,9 @@ namespace InnovaApp.API.Controllers
     {
         //create order endpoint
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(OrderCreateRequestDto request)
         {
-            await orderService.CreateOrder(order);
+            await orderService.CreateOrder(request);
 
             return Ok();
         }

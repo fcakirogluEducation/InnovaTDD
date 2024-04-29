@@ -5,14 +5,10 @@ namespace InnovaApp.API.Services
     public class OrderService(IOrderRepository orderRepository, IStockRepository stockRepository, UnitOfWork unitOfWork)
         : IOrderService
     {
-        public async Task CreateOrder(Order order)
+        public async Task CreateOrder(OrderCreateRequestDto request)
         {
-            var result = order.CheckOrderItemCount();
+            var order = new Order(request);
 
-            if (!result)
-            {
-                throw new Exception("Order item count is invalid");
-            }
 
             orderRepository.CreateOrder(order);
 
