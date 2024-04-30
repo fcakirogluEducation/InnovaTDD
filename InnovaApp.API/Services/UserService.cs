@@ -21,7 +21,7 @@ namespace InnovaApp.API.Services
             //save user to database
             // sent to sms;
 
-            smsService.SendSsms(request.Phone, "Hoşgeldin mesajı");
+            //smsService.SendSsms(request.Phone, "Hoşgeldin mesajı");
         }
     }
 }

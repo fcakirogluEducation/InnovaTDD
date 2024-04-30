@@ -1,6 +1,6 @@
-﻿using InnovaApp.API.Services;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using InnovaApp.API.Services;
 
 namespace InnovaApp.API.Repositories
 {
