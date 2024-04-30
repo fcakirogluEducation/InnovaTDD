@@ -1,6 +1,8 @@
-﻿namespace InnovaApp.API.Services
+﻿using InnovaApp.API.Repositories;
+
+namespace InnovaApp.API.Services
 {
-    public class UserService(ISmsService smsService)
+    public class UserService(ISmsService smsService, IUserRepository userRepository)
     {
         public async Task CreateUser(UserCreateRequestDto request)
         {
@@ -8,6 +10,12 @@
             {
                 throw new Exception("Şifre, 6 karakterden küçük olamaz");
             }
+
+            if (await userRepository.AnySameEmail(request.Email))
+            {
+                throw new Exception("Bu email adresi kullanılmaktadır.");
+            }
+
             //create user
 
             //save user to database

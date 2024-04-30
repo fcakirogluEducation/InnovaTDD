@@ -18,6 +18,37 @@ namespace InnovaApp.API.Repositories
         {
         }
 
+        public void AddOrderItem(decimal price, int productId, int count)
+        {
+            if (OrderItems == null)
+            {
+                OrderItems = new List<OrderItem>();
+            }
+
+
+            OrderItems.Add(new OrderItem
+            {
+                Price = price,
+                ProductId = productId,
+                Count = count
+            });
+        }
+
+
+        public decimal CalculateDiscount(decimal discountRate)
+        {
+            if (discountRate is < 0 or > 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(discountRate),
+                    "indirim oranı 0(%0) ile 1(%100) arasında olmalıdır");
+            }
+
+            TotalPrice = OrderItems!.Sum(x => x.Price * x.Count);
+
+            return TotalPrice * discountRate;
+        }
+
+
         public Order(OrderCreateRequestDto request)
         {
             OrderItems = request.OrderItems?.Select(x => new OrderItem
